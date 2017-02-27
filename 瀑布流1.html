@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        /*#box{*/
+        /*width: 1252px;*/
+        /*margin: 0 auto;*/
+        /*}*/
+
+        img {
+            vertical-align: middle;
+        }
+
+        ul, li {
+            list-style: none;
+        }
+
+        #box ul {
+            /*padding: 5px;*/
+            /*border: 1px solid #ccc;*/
+            float: left;
+            list-style: none;
+        }
+
+    </style>
+</head>
+<body>
+<div id="box">
+</div>
+
+<script>
+    window.onload = function () {
+        var datas = [
+            {"src": "images/P_001.jpg"},
+            {"src": "images/P_002.jpg"},
+            {"src": "images/P_003.jpg"},
+            {"src": "images/P_004.jpg"},
+            {"src": "images/P_005.jpg"},
+            {"src": "images/P_006.jpg"},
+            {"src": "images/P_007.jpg"},
+            {"src": "images/P_008.jpg"},
+            {"src": "images/P_009.jpg"},
+            {"src": "images/P_010.jpg"},
+            {"src": "images/P_011.jpg"},
+            {"src": "images/P_012.jpg"},
+            {"src": "images/P_013.jpg"},
+            {"src": "images/P_014.jpg"},
+            {"src": "images/P_015.jpg"},
+            {"src": "images/P_016.jpg"},
+            {"src": "images/P_017.jpg"},
+            {"src": "images/P_018.jpg"},
+            {"src": "images/P_019.jpg"},
+            {"src": "images/P_020.jpg"},
+            {"src": "images/P_001.jpg"},
+            {"src": "images/P_002.jpg"},
+            {"src": "images/P_003.jpg"},
+            {"src": "images/P_004.jpg"},
+            {"src": "images/P_005.jpg"},
+            {"src": "images/P_006.jpg"},
+            {"src": "images/P_007.jpg"},
+            {"src": "images/P_008.jpg"},
+            {"src": "images/P_009.jpg"},
+            {"src": "images/P_010.jpg"},
+            {"src": "images/P_011.jpg"},
+            {"src": "images/P_012.jpg"},
+            {"src": "images/P_013.jpg"},
+            {"src": "images/P_014.jpg"},
+            {"src": "images/P_015.jpg"},
+            {"src": "images/P_016.jpg"},
+            {"src": "images/P_017.jpg"},
+            {"src": "images/P_018.jpg"},
+            {"src": "images/P_019.jpg"},
+            {"src": "images/P_020.jpg"}
+        ];
+
+
+        //瀑布流，每次添加图片的时候，找到高度最小的一个数列进行插入
+        var box = document.getElementById('box');
+        var winWid = myClient().width;
+        var picWid = 192;
+        var coun =parseInt( winWid/picWid);
+        //声明一个空数组存ul的高度
+        var heightArr = [];
+        //根据coun创建ul个数
+        for (var i = 0; i < coun; i++) {
+
+            var ul = document.createElement('ul');
+            box.appendChild(ul);
+            heightArr[i] = ul.offsetHeight;
+        }
+
+        var uls = box.children;
+        //根据datas中的数据创建li的个数
+        gun();
+
+        //
+        window.onscroll = function () {
+            if(myScroll().scrollTop + myClient().height > getMin(heightArr).value ){
+               gun();
+            }
+        }
+        //
+        function gun() {
+            for (var i = 0; i < datas.length; i++) {
+                var li = document.createElement('li');
+                li.innerHTML = '<img src="'+datas[i].src+'" alt="">'
+                //找出高度最小的ul
+                var minIndex = getMin(heightArr).index;
+                //给高度最小的ul添加图片，
+                uls[minIndex].appendChild(li);
+                //更改uls[minIndex]的高度值heightArr[minIndex]
+                heightArr[minIndex] = uls[minIndex].offsetHeight;
+            }
+
+        }
+        //计算数组最小值
+        function getMin(arr) {
+            var minValue = arr[0];
+            var minIndex = 0;
+            for (var i = 0; i < arr.length; i++) {
+                if (minValue > arr[i]) {
+                    minValue = arr[i];
+                    minIndex = i;
+                }
+            }
+            return {
+                index: minIndex,
+                value: minValue
+            };
+        }
+
+        function myClient() {
+            return {
+                width: window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth || 0,
+                height: window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0
+            }
+        }
+
+        function myScroll() {
+            return {
+                scrollTop: window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0,
+                scrollLeft: window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0
+            };
+        }
+    }
+</script>
+
+</body>
+</html>
